@@ -14,7 +14,16 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import static android.provider.AlarmClock.EXTRA_MESSAGE;
+
 public class MainActivity extends AppCompatActivity {
+
+    // Tag for the intent extra.
+    public static final String EXTRA_MESSAGE =
+            "com.merlyn.android.droidcafeoptions.extra.MESSAGE";
+
+    // The order message, displayed in the Toast and sent to the new Activity.
+    private String mOrderMessage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +36,9 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, OrderActivity.class);
+                Intent intent = new Intent(MainActivity.this,
+                        OrderActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, mOrderMessage);
                 startActivity(intent);
             }
         });
@@ -45,13 +56,25 @@ public class MainActivity extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_order:
+                Intent intent = new Intent(MainActivity.this,
+                        OrderActivity.class);
+                intent.putExtra(EXTRA_MESSAGE, mOrderMessage);
+                startActivity(intent);
+                return true;
+            case R.id.action_status:
+                displayToast(getString(R.string.action_status_message));
+                return true;
+            case R.id.action_favorites:
+                displayToast(getString(R.string.action_favorites_message));
+                return true;
+            case R.id.action_contact:
+                displayToast(getString(R.string.action_contact_message));
+                return true;
+            default:
+                // Do nothing
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -64,20 +87,24 @@ public class MainActivity extends AppCompatActivity {
      * Shows a message that the donut image was clicked.
      */
     public void showDonutOrder(View view) {
-        displayToast(getString(R.string.donut_order_message));
+
+        String mOrderMessage = getString(R.string.donut_order_message);
+        displayToast(mOrderMessage);
     }
 
     /**
      * Shows a message that the ice cream sandwich image was clicked.
      */
     public void showIceCreamOrder(View view) {
-        displayToast(getString(R.string.ice_cream_order_message));
+        String mOrderMessage = getString(R.string.ice_cream_order_message);
+        displayToast(mOrderMessage);
     }
 
     /**
      * Shows a message that the froyo image was clicked.
      */
     public void showFroyoOrder(View view) {
-        displayToast(getString(R.string.froyo_order_message));
+        String mOrderMessage = getString(R.string.froyo_order_message);
+        displayToast(mOrderMessage);
     }
 }
